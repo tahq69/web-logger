@@ -51,7 +51,10 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1"
+  },
   "devDependencies": {
     "ava": "^1.0.0-beta.5.1",
     "codecov": "^3.0.2",
@@ -83,9 +86,7 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "prettier": {
-    "singleQuote": true
-  },
+  "prettier": {},
   "nyc": {
     "exclude": [
       "**/*.spec.js"
