@@ -9,13 +9,10 @@ import {
 } from "../types/index";
 
 export default class WebLogger implements Logger {
-  private sections: string[];
-  private writer: LogWriter;
-
-  public constructor(sections?: string[], writer?: LogWriter) {
-    this.sections = sections || ["log", "info", "warn", "error"];
-    this.writer = writer || new WebConsoleWriter(console);
-  }
+  public constructor(
+    private sections = ["log", "info", "warn", "error"],
+    private writer: LogWriter = new WebConsoleWriter()
+  ) {}
 
   public log(...args: any[]): void {
     args = Array.prototype.slice.call(arguments);

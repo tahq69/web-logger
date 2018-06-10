@@ -3,7 +3,7 @@ import { LogWriter, LogWriterParams } from "../types";
 export class WebConsoleWriter implements LogWriter {
   private console: Console;
 
-  constructor(windowConsole: Console) {
+  constructor(windowConsole?: Console) {
     this.console = windowConsole || console;
   }
 
