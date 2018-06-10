@@ -15,7 +15,7 @@ function createConsole() {
 }
 
 test("WebConsoleWriter constructor properly creates instance", t => {
-  var spy = createConsole();
-  var sut = new WebConsoleWriter(spy);
+  let spy = createConsole();
+  let sut = new WebConsoleWriter(spy);
   t.is(!!sut, true);
 });

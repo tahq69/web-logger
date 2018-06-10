@@ -1,15 +1,15 @@
 import { LogWriter, LogWriterParams } from "../types";
 
 export class WebConsoleWriter implements LogWriter {
-  private console: Console;
-  private section: string;
+  readonly private console: Console;
+  readonly private section: string;
 
   constructor(windowConsole?: Console) {
     this.console = windowConsole || console;
     this.section = "__default__";
   }
 
-  write({ type, section, args, isGroup }: LogWriterParams): void {
+  public write({ type, section, args, isGroup }: LogWriterParams): void {
     if (this.section != section && this.section !== "__default__") {
       // close last group if it is not same as current log.
       this.console.groupEnd();

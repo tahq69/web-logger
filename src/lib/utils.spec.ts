@@ -1,75 +1,75 @@
 import { test } from "ava";
 import {
   isArray,
-  isInArray,
   isDefined,
-  isUndefined,
   isFunction,
-  isString
+  isInArray,
+  isString,
+  isUndefined
 } from "./utils";
 
 test("isArray properly determines array", t => {
-  var actual = isArray([]);
+  let actual = isArray([]);
   t.is(actual, true);
 });
 
 test("isArray properly determines not array", t => {
-  var actual = isArray({});
+  let actual = isArray({});
   t.is(actual, false);
 });
 
 test("isInArray properly determines existing element", t => {
-  var actual = isInArray("a", ["a", "b"]);
+  let actual = isInArray("a", ["a", "b"]);
   t.is(actual, true);
 });
 
 test("isInArray properly determines un-existing element", t => {
-  var actual = isInArray("c", ["a", "b"]);
+  let actual = isInArray("c", ["a", "b"]);
   t.is(actual, false);
 });
 
 test("isDefined properly determines existing variable", t => {
-  var variable = "";
-  var actual = isDefined(variable);
+  let variable = "";
+  let actual = isDefined(variable);
   t.is(actual, true);
 });
 
 test("isDefined properly determines un-existing variable", t => {
-  var variable;
-  var actual = isDefined(variable);
+  let variable;
+  let actual = isDefined(variable);
   t.is(actual, false);
 });
 
 test("isUndefined properly determines un-existing variable", t => {
-  var variable;
-  var actual = isUndefined(variable);
+  let variable;
+  let actual = isUndefined(variable);
   t.is(actual, true);
 });
 
 test("isUndefined properly determines existing variable", t => {
-  var variable = 0;
-  var actual = isUndefined(variable);
+  let variable = 0;
+  let actual = isUndefined(variable);
   t.is(actual, false);
 });
 
 test("isFunction properly determines function", t => {
-  var func = () => null;
-  var actual = isFunction(func);
+  let func = () => null;
+  let actual = isFunction(func);
   t.is(actual, true);
 });
 
 test("isFunction properly determines not a function", t => {
-  var func = null;
-  var actual = isFunction(func);
+  let func = null;
+  let actual = isFunction(func);
   t.is(actual, false);
 });
 
 test("isString properly determines string value", t => {
-  var actual = isString("string");
+  let actual = isString("string");
   t.is(actual, true);
 });
 
 test("isString properly determines not a string value", t => {
-  var actual = isString(NaN);
+  let actual = isString(NaN);
   t.is(actual, false);
 });

@@ -18,6 +18,6 @@ export function isArray<T>(value: T) {
   return Object.prototype.toString.call(value) === "[object Array]";
 }
 
-export function isInArray<T>(value: T, array: T[]): boolean {
+export function isInArray<T>(value: T, array: ReadonlyArray<T>): boolean {
   return !!~array.indexOf(value);
 }
