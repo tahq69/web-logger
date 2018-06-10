@@ -1,107 +1,53 @@
-import Vue from "vue";
-
-import { isInArray, isFunction, isDefined, isString } from "./utils";
-
+import { isInArray } from "./utils";
+import { WebConsoleWriter } from "./web-console-logger";
 import {
   Logger,
   LogType,
   LogWriterParams,
-  LoggerOptions,
-  LogWriter
+  LogWriter,
+  Log
 } from "../types/index";
 
 export default class WebLogger implements Logger {
-  private target: string | boolean;
   private sections: string[];
-  private console: Console;
+  private writer: LogWriter;
 
-  public constructor({ target, sections }: LoggerOptions, writter?: LogWriter) {
-    this.target = target;
-    this.sections = sections;
-    this.console = console || window.console;
+  public constructor(sections?: string[], writer?: LogWriter) {
+    this.sections = sections || ["log", "info", "warn", "error"];
+    this.writer = writer || new WebConsoleWriter(console);
   }
 
-  log(...args: any[]): void {
-    this.writeLog({ type: "log", args, section: "global" });
+  public log(...args: any[]): void {
+    args = Array.prototype.slice.call(arguments);
+    this.writeLog({ type: "log", args, section: "log" });
   }
 
-  info(...args: any[]): void {
+  public info(...args: any[]): void {
+    args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "info", args, section: "info" });
   }
 
-  error(...args: any[]): void {
+  public warn(...args: any[]): void {
+    args = Array.prototype.slice.call(arguments);
+    this.writeLog({ type: "warn", args, section: "warn" });
+  }
+
+  public error(...args: any[]): void {
+    args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "error", args, section: "error" });
   }
 
-  group(
-    section: string,
-    type: LogType = "log",
-    isComponent = false
-  ): (...args: any[]) => void {
-    return (...args: any[]) => {
-      args.unshift(section);
-      this.writeLog({ type, args, section, isComponent, isGroup: true });
+  public group(section: string, type: LogType = "log"): Log {
+    return (...args1: any[]) => {
+      var args = Array.prototype.slice.call(args1);
+      this.writeLog({ type, args, section, isGroup: true });
     };
   }
 
-  component(vm: Vue, ...args: any[]): (...args: any[]) => void {
-    const component = vm.$options.name;
-    let logArguments = [component, ...args];
-
-    /*if (vm.$route) {
-      const route = { ...vm.$route.params, path: vm.$route.fullPath };
-      logArguments = [component, { route }, ...args];
-    }*/
-
-    this.writeLog({
-      type: "log",
-      args: logArguments,
-      section: "component",
-      isComponent: true
-    });
-
-    return this.group(vm.$options.name || "unnamed", "log", true);
-  }
-
   private writeLog(params: LogWriterParams) {
-    const section = params.isComponent ? "component" : params.section;
-    if (!this.isInAvailableSections(section)) return;
+    if (!this.isInAvailableSections(params.section)) return;
 
-    if (this.target === "console") {
-      return this.consoleLog(params.type, params.args, params.isGroup);
-    }
-  }
-
-  private consoleLog(type: LogType, args: any[], isGroup = false) {
-    var hasConsole = window.console && console[type];
-    var hasGroup = !!(hasConsole && window.console.group);
-    if (!hasConsole) return;
-
-    if (isGroup && hasGroup) {
-      var section = args.shift();
-      console.group(section);
-      this.smartLog(type, args);
-      console.groupEnd();
-    } else {
-      this.smartLog(type, args);
-    }
-  }
-
-  private smartLog(type: LogType, args: any[]) {
-    if (
-      isDefined(args) &&
-      args.length === 1 &&
-      !isFunction(args[0]) &&
-      !isString(args[0])
-    ) {
-      console.group(type);
-      Object.keys(args[0]).forEach(key =>
-        console[type].apply(console, [`${key}:`, args[0][key]])
-      );
-      console.groupEnd();
-    } else {
-      console[type].apply(console, args);
-    }
+    this.writer.write(params);
   }
 
   private isInAvailableSections(section: string): boolean {

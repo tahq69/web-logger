@@ -1,5 +1,3 @@
-import Vue from "vue";
-
 import { LogType } from "./types";
 
 export interface Logger {
@@ -10,6 +8,14 @@ export interface Logger {
    * @memberof Logger
    */
   log(...args: any[]): void;
+
+  /**
+   * Write warning message.
+   *
+   * @param {...any[]} args
+   * @memberof Logger
+   */
+  warn(...args: any[]): void;
 
   /**
    * Write informational message.
@@ -36,14 +42,4 @@ export interface Logger {
    * @memberof Logger
    */
   group(section: string, type?: LogType): (...args: any[]) => void;
-
-  /**
-   * Log Vue component details.
-   *
-   * @param {Vue} vm
-   * @param {...any[]} args
-   * @returns {(...args: any[]) => void}
-   * @memberof Logger
-   */
-  component(vm: Vue, ...args: any[]): (...args: any[]) => void;
 }

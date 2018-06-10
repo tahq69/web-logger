@@ -51,11 +51,8 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {
-    "vue": "^2.5.16",
-    "vue-router": "^3.0.1"
-  },
   "devDependencies": {
+    "@types/sinon": "^5.0.1",
     "ava": "^1.0.0-beta.5.1",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
@@ -64,6 +61,7 @@
     "nyc": "^12.0.2",
     "opn-cli": "^3.1.0",
     "prettier": "^1.13.4",
+    "sinon": "^5.1.1",
     "standard-version": "^4.4.0",
     "trash-cli": "^1.4.0",
     "tslint": "^5.10.0",
