@@ -1,5 +1,5 @@
 import { test } from "ava";
-import sinon from "sinon";
+import * as sinon from "sinon";
 import WebLogger from "./web-logger";
 
 test("WebLogger properly calls writer on log", t => {

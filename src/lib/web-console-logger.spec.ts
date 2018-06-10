@@ -1,14 +1,21 @@
 import { test } from "ava";
-import {
-  isArray
-} from "./utils";
+import * as sinon from "sinon";
+import { WebConsoleWriter } from "./web-console-logger";
 
-test("isArray properly determines array", t => {
-  var actual = isArray([]);
-  t.is(actual, true);
-});
+function createConsole() {
+  return ({
+    log: sinon.spy(),
+    info: sinon.spy(),
+    warn: sinon.spy(),
+    error: sinon.spy(),
+    group: sinon.spy(),
+    endGroup: sinon.spy(),
+    table: sinon.spy()
+  } as any) as Console;
+}
 
-test("isArray properly determines not array", t => {
-  var actual = isArray({});
-  t.is(actual, false);
+test("WebConsoleWriter constructor properly creates instance", t => {
+  var spy = createConsole();
+  var sut = new WebConsoleWriter(spy);
+  t.is(!!sut, true);
 });
