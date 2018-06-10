@@ -1,8 +1,8 @@
 import { LogWriter, LogWriterParams } from "../types";
 
 export class WebConsoleWriter implements LogWriter {
-  readonly private console: Console;
-  readonly private section: string;
+  private readonly console: Console;
+  private section: string;
 
   constructor(windowConsole?: Console) {
     this.console = windowConsole || console;

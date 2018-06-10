@@ -14,28 +14,28 @@ export default class WebLogger implements Logger {
     private writer: LogWriter = new WebConsoleWriter()
   ) {}
 
-  public log(...args: ReadonlyArray<any>): void {
+  public log(...args: Array<any>): void {
     args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "log", args, section: "log" });
   }
 
-  public info(...args: ReadonlyArray<any>): void {
+  public info(...args: Array<any>): void {
     args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "info", args, section: "info" });
   }
 
-  public warn(...args: ReadonlyArray<any>): void {
+  public warn(...args: Array<any>): void {
     args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "warn", args, section: "warn" });
   }
 
-  public error(...args: ReadonlyArray<any>): void {
+  public error(...args: Array<any>): void {
     args = Array.prototype.slice.call(arguments);
     this.writeLog({ type: "error", args, section: "error" });
   }
 
   public group(section: string, type: LogType = "log"): Log {
-    return (...args1: ReadonlyArray<any>) => {
+    return (...args1: Array<any>) => {
       let args = Array.prototype.slice.call(args1);
       this.writeLog({ type, args, section, isGroup: true });
     };
